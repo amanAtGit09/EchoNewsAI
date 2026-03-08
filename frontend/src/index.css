@@ -1,0 +1,457 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-main: #ffffff;
+  --accent: #00d4ff;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+}
+
+.logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;   /* Increased from your previous scale */
+  font-weight: bold;
+}
+
+.row-container {
+  padding: 20px 4%;
+}
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 20px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.news-card {
+  min-width: 280px;
+  max-width: 280px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  border: 1px solid var(--accent);
+}
+
+.play-overlay-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 212, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: background 0.3s;
+}
+
+.play-overlay-btn:hover {
+  background: #00d4ff;
+  transform: scale(1.1);
+}
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #444;
+  color: #888;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+
+.refresh-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.spin {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.skeleton-card {
+  min-width: 280px;
+  height: 250px;
+  background: linear-gradient(90deg, #1e1e1e 25%, #2a2a2a 50%, #1e1e1e 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.digest-card {
+  min-width: 320px;
+  max-width: 320px; /* Added max-width to keep cards uniform */
+  height: auto;    /* Fixed height prevents the 'Technology' row issue */
+  min-height: 300px;
+  background: #1e1e1e;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #333;
+  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column; /* Stacks image on top of text */
+}
+
+.digest-content {
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.historical {
+  opacity: 1; /* Slightly dimmer for past news */
+}
+
+.latest {
+  border-color: #00d4ff55;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+}
+
+.collage-container {
+  height: 180px;
+  min-height: 180px; /* Ensures the image area never shrinks */
+  position: relative;
+  background: #2a2a2a;
+  flex-shrink: 0;    /* Prevents the image from being squashed */
+}
+
+.main-img { width: 100%; height: 100%; object-fit: cover; }
+
+.history-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.headline-list {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.headline-list li {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #f1f5f9;
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  line-height: 1.35;
+}
+
+/* MEGA-CARD ENHANCEMENTS */
+.card-controls {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: all 0.2s;
+}
+
+.icon-btn.play { background: var(--accent); border: none; }
+.icon-btn:hover { transform: scale(1.1); background: var(--accent); }
+
+.digest-tag {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.date-text { color: #666; font-size: 11px; }
+
+.headline-list .bullet { color: var(--accent); flex-shrink: 0; }
+.more-text { color: #555; font-size: 12px; font-style: italic; padding-left: 18px; }
+
+.placeholder-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #252525;
+  color: #444;
+  font-weight: bold;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ff4b4b;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 1; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(0.9); opacity: 0; }
+}
+
+.error-msg {
+  color: #ff4b4b;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 1. Transparent & Modern Search Bar */
+.search-box {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  border-radius: 20px;
+  padding: 8px 16px; /* Increased padding for a larger feel */
+  transition: all 0.3s ease;
+  width: 100%;       /* Allows it to use more space */
+  margin-left: 40px; /* More space from logo */
+  flex-grow: 1;
+  max-width: 500px;  /* Increased from 400px */
+}
+
+.search-box:focus-within {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 6px;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.search-box button {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.search-box button:hover { color: var(--accent); }
+
+.search-results-container {
+  background: rgba(0, 212, 255, 0.03); /* Subtle blue tint to distinguish */
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 30px;
+  border: 1px dashed rgba(0, 212, 255, 0.2);
+}
+
+.search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4%;
+}
+
+.clear-btn {
+  background: transparent;
+  border: 1px solid #444;
+  color: #888;
+  padding: 4px 12px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.clear-btn:hover { color: var(--error); border-color: var(--error); }
+
+/* 2. Fix the Card Content spacing */
+.digest-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* COLLAGE GRID LOGIC */
+.collage-grid {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  gap: 2px;
+}
+.images-1 { grid-template-columns: 1fr; }
+.images-2 { grid-template-columns: 1fr 1fr; }
+.images-3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+
+.images-3 .img-0 { grid-row: span 2; }
+.collage-grid img { width: 100%; height: 100%; object-fit: cover; }
+
+/* MODAL STYLES */
+.modal-overlay {
+  position: fixed !important; /* Force fixed positioning */
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.95) !important;
+  z-index: 10000 !important; /* Extremely high z-index */
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #121212;
+  width: 90%;
+  max-width: 850px; /* Wider for better reading */
+  max-height: 80vh;
+  border-radius: 24px;
+  border: 1px solid #333;
+  padding: 0; /* Let the body handle padding */
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 0 50px rgba(0, 212, 255, 0.2);
+}
+.close-modal {
+  position: sticky;
+  top: 15px; left: 90%;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.modal-body { padding: 30px; }
+
+.modal-news-item {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 20px;
+}
+
+.modal-item-img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; }
+
+.source-row { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #888; margin-bottom: 10px; }
+.source-icon { width: 18px; height: 18px; border-radius: 50%; }
+
+.read-more-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
+  text-decoration: none;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 4%;
+  background: #000;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* This pushes the search bar away from the logo */
+  justify-content: space-between; 
+}
+
+.recent-searches {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 20px 0;
+  flex-wrap: wrap;
+}
+
+.search-tag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  color: #888;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.search-tag:hover {
+  background: var(--accent);
+  color: black;
+  border-color: var(--accent);
+}

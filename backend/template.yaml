@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: EchoNews AI - Master Orchestrator for News, AI, and Audio.
+
+Globals:
+  Function:
+    Timeout: 60  # Increased for AI and Polly processing
+    MemorySize: 256
+    Runtime: python3.13
+    Architectures:
+      - x86_64
+    Environment:
+      Variables:
+        NEWSDATA_API_KEY: !Ref NewsDataApiKey
+        GEMINI_API_KEY: !Ref GeminiApiKey
+        TABLE_NAME: "EchoNewsTable"
+        BUCKET_NAME: "echonews-audio-2026"
+
+Resources:
+  EchoNewsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: hello_world/  # Matches your folder name
+      Handler: app.lambda_handler
+      Policies:
+        - AmazonS3FullAccess         # Required for Pre-signed URLs and Uploads
+        - AmazonDynamoDBFullAccess   # Required to save/fetch news data
+        - AmazonPollyFullAccess      # Required to generate voice
+        - Statement:
+            - Effect: Allow
+              Action: "bedrock:InvokeModel"
+              Resource: "*"          # Required for Nova Micro
+      Events:
+        NewsApi:
+          Type: Api
+          Properties:
+            Path: /news
+            Method: any
+            
+        MorningBriefing:
+          Type: Schedule
+          Properties:
+            Schedule: cron(30 0 * * ? *) # Every day at 12:30 AM UTC (6:00 AM IST)
+            Input: '{"source": "aws.events", "detail-type": "Scheduled Event"}'
+            
+        AfternoonBriefing:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 7 * * ? *) # Every day at 7:00 AM UTC (12:30 PM IST)
+            Input: '{"source": "aws.events", "detail-type": "Scheduled Event"}'
+            
+        EveningBriefing:
+          Type: Schedule
+          Properties:
+            Schedule: cron(30 12 * * ? *) # Every day at 12:30 PM UTC (6:00 PM IST)
+            Input: '{"source": "aws.events", "detail-type": "Scheduled Event"}'
+
+Outputs:
+  EchoNewsApiUrl:
+    Description: "Your Live API Endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/news"
