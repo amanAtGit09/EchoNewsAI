@@ -20,7 +20,7 @@ Resources:
   EchoNewsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: hello_world/  # Matches your folder name
+      CodeUri: src/  # Matches your folder name
       Handler: app.lambda_handler
       Policies:
         - AmazonS3FullAccess         # Required for Pre-signed URLs and Uploads
